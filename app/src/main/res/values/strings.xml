@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">WifiDetection</string>
+    <string name="no_available_wifi">No Available Wifi</string>
+    <string name="show_more">Show More</string>
+    <string name="saved_first_run">first_run</string>
 </resources>
