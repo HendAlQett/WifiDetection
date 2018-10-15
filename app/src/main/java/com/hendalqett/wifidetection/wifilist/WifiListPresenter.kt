@@ -4,6 +4,7 @@ import android.net.wifi.ScanResult
 import android.text.TextUtils
 import com.hend.airlines.ui.base.BasePresenter
 import com.hendalqett.wifidetection.data.model.WifiNetwork
+import com.hendalqett.wifidetection.utils.FilterNetworksHandler
 
 /**
  * Created by hend on 10/15/18.
@@ -30,15 +31,19 @@ class WifiListPresenter(mView: WifiListContract.View) : BasePresenter<WifiListCo
     }
 
     private fun getListOf3TopStrongWifi() {
-        mView.get()?.onCloseByUpdate(wifiNetworks.take(3))
+        val networks: List<WifiNetwork> = FilterNetworksHandler.filterTop(3, wifiNetworks)
+        mView.get()?.onCloseByUpdate(networks)
     }
 
     private fun getListOf3TopWeakWifi() {
-        mView.get()?.onFarAwayUpdate(wifiNetworks.takeLast(wifiNetworks.size - 3).take(3), true)
+        val networks: List<WifiNetwork> = FilterNetworksHandler.filterLast(3, 3, wifiNetworks)
+        mView.get()?.onFarAwayUpdate(networks, true)
     }
 
     override fun getListOf6TopWeakWifi() {
-        mView.get()?.onFarAwayUpdate(wifiNetworks.takeLast(wifiNetworks.size - 3).take(6), false)
+        val networks: List<WifiNetwork> = FilterNetworksHandler.filterLast(3, 6, wifiNetworks)
+        mView.get()?.onFarAwayUpdate(networks, false)
     }
+
 
 }
