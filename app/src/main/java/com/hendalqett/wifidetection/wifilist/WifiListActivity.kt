@@ -13,10 +13,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.hend.airlines.ui.base.BaseActivity
 import com.hendalqett.wifidetection.R
-import com.hendalqett.wifidetection.data.WifiNetwork
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.listener.single.SnackbarOnDeniedPermissionListener
+import com.hendalqett.wifidetection.data.model.WifiNetwork
+import com.hendalqett.wifidetection.utils.PermissionHandler
+import com.hendalqett.wifidetection.wifidetails.DetailsActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 
 
 class WifiListActivity : BaseActivity<WifiListPresenter>(), WifiListContract.View, WifiAdapter.OnItemClickedListener, WifiAdapter.OnButtonClickedListener {
@@ -30,10 +32,9 @@ class WifiListActivity : BaseActivity<WifiListPresenter>(), WifiListContract.Vie
     private lateinit var strongNetworksList: MutableList<Any>
     private lateinit var weakNetworksList: MutableList<Any>
 
+    val presenter: WifiListPresenter by inject { parametersOf(this) }
 
     override fun afterInflation(savedInstanceState: Bundle?) {
-
-        presenter = WifiListPresenter(this)
 
         strongNetworksList = ArrayList()
         weakNetworksList = ArrayList()
@@ -65,13 +66,7 @@ class WifiListActivity : BaseActivity<WifiListPresenter>(), WifiListContract.Vie
     override fun onStart() {
         super.onStart()
         if (ActivityCompat.checkSelfPermission(this@WifiListActivity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            val snackbarPermissionListener = SnackbarOnDeniedPermissionListener.Builder
-                    .with(container, getString(R.string.please_grant_location))
-                    .withOpenSettingsButton(getString(R.string.settings)).build()
-
-            Dexter.withActivity(this)
-                    .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                    .withListener(snackbarPermissionListener).check()
+            PermissionHandler.permissionForLocation(this, container)
         }
     }
 
@@ -83,7 +78,6 @@ class WifiListActivity : BaseActivity<WifiListPresenter>(), WifiListContract.Vie
             registerReceiver(wifiReceiver, IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))
             wifi?.startScan()
         }
-
 
     }
 
@@ -126,7 +120,11 @@ class WifiListActivity : BaseActivity<WifiListPresenter>(), WifiListContract.Vie
 
 
     override fun onClicked(network: WifiNetwork) {
-        //TODO: open details
+        val intent = Intent(this, DetailsActivity::class.java)
+        val bundle = Bundle()
+        bundle.putParcelable("WIFI", network)
+        intent.putExtra("bundle", bundle)
+        startActivity(intent)
     }
 
     override fun onClicked() {

@@ -53,7 +53,7 @@
             android:id="@+id/groupRecyler"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             app:constraint_referenced_ids="recyclerViewWeakNetworks,recyclerViewStrongNetworks" />
 
 
@@ -78,7 +78,7 @@
             android:id="@+id/groupEmptyView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
             app:constraint_referenced_ids="textViewEmptyView" />
 
         <Space

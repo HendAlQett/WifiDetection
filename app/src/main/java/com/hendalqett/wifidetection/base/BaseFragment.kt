@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.hendalqett.wifidetection.utils.ErrorMessagesUtils
+import com.hendalqett.wifidetection.utils.ErrorMessagesHandler
 
 abstract class BaseFragment<P : BaseContract.Presenter> : Fragment(), BaseContract.View<Fragment> {
 
@@ -50,7 +50,7 @@ abstract class BaseFragment<P : BaseContract.Presenter> : Fragment(), BaseContra
     abstract fun afterInflation(resultView: View, savedInstanceState: Bundle?)
 
     override fun showErrorMessage(errorRes: String) {
-        ErrorMessagesUtils.showMessageShortToast(activity, errorRes)
+        ErrorMessagesHandler.showMessageShortToast(activity, errorRes)
     }
 
 }

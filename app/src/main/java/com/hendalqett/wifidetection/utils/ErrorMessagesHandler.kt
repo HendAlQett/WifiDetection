@@ -6,7 +6,7 @@ import android.widget.Toast
 /**
  * Created by hend on 10/14/18.
  */
-class ErrorMessagesUtils{
+class ErrorMessagesHandler{
     companion object {
         fun showMessageShortToast(activity: Activity?, message: String?) {
             if (activity != null) {

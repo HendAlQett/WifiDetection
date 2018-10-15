@@ -3,7 +3,7 @@ package com.hendalqett.wifidetection.wifilist
 import android.net.wifi.ScanResult
 import android.support.v7.app.AppCompatActivity
 import com.hend.airlines.ui.base.BaseContract
-import com.hendalqett.wifidetection.data.WifiNetwork
+import com.hendalqett.wifidetection.data.model.WifiNetwork
 
 /**
  * Created by hend on 10/15/18.

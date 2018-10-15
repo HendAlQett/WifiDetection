@@ -3,12 +3,12 @@ package com.hendalqett.wifidetection.wifilist
 import android.net.wifi.ScanResult
 import android.text.TextUtils
 import com.hend.airlines.ui.base.BasePresenter
-import com.hendalqett.wifidetection.data.WifiNetwork
+import com.hendalqett.wifidetection.data.model.WifiNetwork
 
 /**
  * Created by hend on 10/15/18.
  */
-class WifiListPresenter(mView: WifiListContract.View) : BasePresenter<WifiListContract.View>(mView), WifiListContract.Presenter {
+class WifiListPresenter(mView: WifiListContract.View) : BasePresenter<WifiListContract.View>(mView), WifiListContract.Presenter{
 
     lateinit var wifiNetworks: MutableList<WifiNetwork>
 

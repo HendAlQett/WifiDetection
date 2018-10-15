@@ -6,7 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.hendalqett.wifidetection.R
-import com.hendalqett.wifidetection.data.WifiNetwork
+import com.hendalqett.wifidetection.data.model.WifiNetwork
+import com.hendalqett.wifidetection.utils.WifiStrength
 import kotlinx.android.synthetic.main.header_list_item.view.*
 import kotlinx.android.synthetic.main.show_more_list_item.view.*
 import kotlinx.android.synthetic.main.wifi_list_item.view.*
@@ -25,22 +26,10 @@ class WifiAdapter(private val wifiNetworksList: List<Any>, val itemClickedListen
     class WifiViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(item: WifiNetwork, itemClickedListener: OnItemClickedListener) = with(itemView) {
             textViewWifi.text = item.name
-            imageViewWifi.setImageResource(getSignalImage(item.level))
+            imageViewWifi.setImageResource(WifiStrength.getSignalImage(item.level))
             setOnClickListener {
                 itemClickedListener.onClicked(item)
             }
-        }
-
-        private fun getSignalImage(level: Int): Int {
-
-            return when (level) {
-                in 0 downTo -50 -> R.drawable.ic_signal_wifi_4_bar_black
-                in -51 downTo -60 -> R.drawable.ic_signal_wifi_3_bar_black
-                in -61 downTo -70 -> R.drawable.ic_signal_wifi_2_bar_black
-                in -71 downTo -80 -> R.drawable.ic_signal_wifi_1_bar_black
-                else -> R.drawable.ic_signal_wifi_0_bar_black
-            }
-
         }
     }
 

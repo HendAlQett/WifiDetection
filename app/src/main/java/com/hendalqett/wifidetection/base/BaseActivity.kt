@@ -3,11 +3,10 @@ package com.hend.airlines.ui.base
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import com.hendalqett.wifidetection.utils.ErrorMessagesUtils
+import com.hendalqett.wifidetection.utils.ErrorMessagesHandler
 
 
 abstract class BaseActivity<P : BaseContract.Presenter> : AppCompatActivity(), BaseContract.View<AppCompatActivity> {
-    protected lateinit var presenter: P
 
     protected abstract val layoutResource: Int
 
@@ -51,7 +50,7 @@ abstract class BaseActivity<P : BaseContract.Presenter> : AppCompatActivity(), B
 
 
     override fun showErrorMessage(errorRes: String) {
-        ErrorMessagesUtils.showMessageShortToast(this, errorRes)
+        ErrorMessagesHandler.showMessageShortToast(this, errorRes)
     }
 
 }
