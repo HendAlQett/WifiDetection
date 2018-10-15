@@ -1,4 +1,4 @@
-package com.hendalqett.wifidetection
+package com.hendalqett.wifidetection.data
 
 /**
  * Created by hend on 10/13/18.

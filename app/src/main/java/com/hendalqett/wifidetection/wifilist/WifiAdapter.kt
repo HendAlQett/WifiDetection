@@ -1,10 +1,12 @@
-package com.hendalqett.wifidetection
+package com.hendalqett.wifidetection.wifilist
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.hendalqett.wifidetection.R
+import com.hendalqett.wifidetection.data.WifiNetwork
 import kotlinx.android.synthetic.main.header_list_item.view.*
 import kotlinx.android.synthetic.main.show_more_list_item.view.*
 import kotlinx.android.synthetic.main.wifi_list_item.view.*
