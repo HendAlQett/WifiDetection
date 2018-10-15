@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: "org.jetbrains.kotlin.android.extensions"
 
 android {
     compileSdkVersion 27
@@ -20,6 +21,10 @@ android {
     }
 }
 
+androidExtensions {
+    experimental = true
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:27.1.1'
@@ -30,10 +35,9 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.karumi:dexter:5.0.0'
-//    // Koin for Android
-//    implementation 'org.koin:koin-android:1.0.1'
-//    // or Koin for Lifecycle scoping
-//    implementation 'org.koin:koin-android-scope:1.0.1'
-//    // or Koin for Android Architecture ViewModel
-//    implementation 'org.koin:koin-android-viewmodel:1.0.1'
+    // Koin for Android
+    implementation 'org.koin:koin-android:1.0.1'
+    // or Koin for Lifecycle scoping
+    implementation 'org.koin:koin-android-scope:1.0.1'
+
 }
