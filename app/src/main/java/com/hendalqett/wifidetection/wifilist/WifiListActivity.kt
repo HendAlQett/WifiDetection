@@ -101,13 +101,7 @@ class WifiListActivity : BaseActivity<WifiListPresenter>(), WifiListContract.Vie
 
 
     override fun onClicked(network: WifiNetwork) {
-//        val intent = Intent(this, DetailsActivity::class.java)
-//        val bundle = Bundle()
-//        bundle.putParcelable("WIFI", network)
-//        intent.putExtra("bundle", bundle)
-//        startActivity(intent)
         startActivity<DetailsActivity>("WIFI" to network)
-
     }
 
     override fun onClicked() {

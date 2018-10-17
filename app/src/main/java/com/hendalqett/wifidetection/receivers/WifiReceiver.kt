@@ -10,24 +10,6 @@ import android.net.wifi.WifiManager
 /**
  * Created by hend on 10/15/18.
  */
-//class WifiReceiver : BroadcastReceiver() {
-//
-//    override fun onReceive(context: Context, intent: Intent) {
-//
-//        if (WifiListActivity.wifi?.scanResults?.size!! > 0) {
-//            groupEmptyView.visibility = View.GONE
-//            groupRecyler.visibility = View.VISIBLE
-//        }
-//
-//        presenter.getListOFAllWifi(WifiListActivity.wifi?.scanResults)
-//
-//    }
-//}
-/**
- * Created by hend on 10/16/18.
- */
-
-
 class WifiReceiver(context: Context) : BroadcastReceiver() {
 
     private val context = context.applicationContext
