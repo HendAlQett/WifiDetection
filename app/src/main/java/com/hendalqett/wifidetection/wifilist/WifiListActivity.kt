@@ -1,7 +1,6 @@
 package com.hendalqett.wifidetection.wifilist
 
 import android.Manifest
-import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.wifi.ScanResult
@@ -17,6 +16,7 @@ import com.hendalqett.wifidetection.receivers.WifiReceiver
 import com.hendalqett.wifidetection.utils.PermissionHandler
 import com.hendalqett.wifidetection.wifidetails.DetailsActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.startActivity
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
@@ -101,11 +101,13 @@ class WifiListActivity : BaseActivity<WifiListPresenter>(), WifiListContract.Vie
 
 
     override fun onClicked(network: WifiNetwork) {
-        val intent = Intent(this, DetailsActivity::class.java)
-        val bundle = Bundle()
-        bundle.putParcelable("WIFI", network)
-        intent.putExtra("bundle", bundle)
-        startActivity(intent)
+//        val intent = Intent(this, DetailsActivity::class.java)
+//        val bundle = Bundle()
+//        bundle.putParcelable("WIFI", network)
+//        intent.putExtra("bundle", bundle)
+//        startActivity(intent)
+        startActivity<DetailsActivity>("WIFI" to network)
+
     }
 
     override fun onClicked() {

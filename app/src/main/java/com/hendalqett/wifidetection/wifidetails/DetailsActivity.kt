@@ -13,11 +13,10 @@ class DetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
-        val wifiNetwork = intent.getBundleExtra("bundle").getParcelable<WifiNetwork>("WIFI")
-        textViewWifiName.text = wifiNetwork.name
-        supportActionBar?.title = wifiNetwork.name
+        val wifiNetwork: WifiNetwork? = intent.getParcelableExtra("WIFI")
+        textViewWifiName.text = wifiNetwork?.name
+        supportActionBar?.title = wifiNetwork?.name
 
-        imageViewWifi.setImageResource(WifiStrength.getSignalImage(wifiNetwork.level))
-
+        imageViewWifi.setImageResource(WifiStrength.getSignalImage(wifiNetwork?.level))
     }
 }

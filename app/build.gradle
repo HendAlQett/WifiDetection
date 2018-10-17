@@ -7,7 +7,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.hendalqett.wifidetection"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -35,6 +35,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.karumi:dexter:5.0.0'
+    implementation "org.jetbrains.anko:anko-commons:$anko_version"
     // Koin for Android
     implementation 'org.koin:koin-android:1.0.1'
     // or Koin for Lifecycle scoping

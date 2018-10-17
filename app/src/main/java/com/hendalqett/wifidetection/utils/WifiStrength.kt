@@ -7,7 +7,7 @@ import com.hendalqett.wifidetection.R
  */
 class WifiStrength{
     companion object {
-        fun getSignalImage(level: Int): Int {
+        fun getSignalImage(level: Int?): Int {
 
             return when (level) {
                 in 0 downTo -50 -> R.drawable.ic_signal_wifi_4_bar_black
