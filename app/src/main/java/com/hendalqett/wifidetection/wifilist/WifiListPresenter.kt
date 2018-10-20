@@ -16,8 +16,8 @@ class WifiListPresenter(mView: WifiListContract.View) : BasePresenter<WifiListCo
 
     private val fakeWifiNetwork: MutableList<WifiNetwork> = ArrayList()
     private val realWifiNetwork: MutableList<WifiNetwork> = ArrayList()
-    private lateinit var realWifiProvider: RealWifiProvider
-    private lateinit var fakeWifiProvider: FakeWiFiProvider
+    private lateinit var realWifiProvider: WifiProvider
+    private lateinit var fakeWifiProvider: WifiProvider
 
     override fun onCloseByUpdate(items: List<WifiNetwork>) {
         realWifiNetwork.clear()

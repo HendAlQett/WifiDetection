@@ -31,9 +31,12 @@ class FakeWiFiProvider(private val callback: WifiProvider.Callback) : WifiProvid
 
     private fun generateFakeWiFis(numberOfWifis: Int) : List<WifiNetwork> {
         val list = mutableListOf<WifiNetwork>()
-
+        val random = Random()
+        val max= 0
+        val min = -120
         for (i in 1..numberOfWifis) {
-            list.add(WifiNetwork(UUID.randomUUID().toString()))
+            val number = random.nextInt(max-1 + 1 - min) + min
+            list.add(WifiNetwork(UUID.randomUUID().toString(), number))
         }
 
         return list
