@@ -7,12 +7,11 @@ import org.koin.dsl.module.module
 /**
  * Created by hend on 10/15/18.
  */
-class AppModule{
-    companion object {
 
-        val appModule = module {
 
-            factory { (view: WifiListContract.View) -> WifiListPresenter(view) }
-        }
-    }
+val appModule = module {
+
+    factory { (view: WifiListContract.View) -> WifiListPresenter(view) }
 }
+
+

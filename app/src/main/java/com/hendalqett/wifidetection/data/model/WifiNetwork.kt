@@ -8,4 +8,4 @@ import kotlinx.android.parcel.Parcelize
  */
 
 @Parcelize
-data class WifiNetwork(var name: String, var level: Int): Parcelable
+data class WifiNetwork(var name: String, var level: Int= -90): Parcelable

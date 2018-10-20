@@ -1,6 +1,5 @@
 package com.hendalqett.wifidetection.wifilist
 
-import android.net.wifi.ScanResult
 import android.support.v7.app.AppCompatActivity
 import com.hend.airlines.ui.base.BaseContract
 import com.hendalqett.wifidetection.data.model.WifiNetwork
@@ -15,9 +14,8 @@ class WifiListContract : BaseContract {
     }
 
     interface Presenter : BaseContract.Presenter {
-        fun getListOFAllWifi(scanResults: List<ScanResult>?)
-
+        fun startWifi()
+        fun stopWifi()
         fun getListOf6TopWeakWifi()
-
     }
 }

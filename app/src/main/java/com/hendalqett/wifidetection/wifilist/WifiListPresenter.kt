@@ -1,48 +1,59 @@
 package com.hendalqett.wifidetection.wifilist
 
-import android.net.wifi.ScanResult
-import android.text.TextUtils
+import android.content.Context
 import com.hend.airlines.ui.base.BasePresenter
 import com.hendalqett.wifidetection.data.model.WifiNetwork
+import com.hendalqett.wifidetection.providers.FakeWiFiProvider
+import com.hendalqett.wifidetection.providers.RealWifiProvider
+import com.hendalqett.wifidetection.providers.WifiProvider
 import com.hendalqett.wifidetection.utils.FilterNetworksHandler
 
 /**
  * Created by hend on 10/15/18.
  */
-class WifiListPresenter(mView: WifiListContract.View) : BasePresenter<WifiListContract.View>(mView), WifiListContract.Presenter{
+class WifiListPresenter(mView: WifiListContract.View) : BasePresenter<WifiListContract.View>(mView), WifiListContract.Presenter, WifiProvider.Callback {
 
-    lateinit var wifiNetworks: MutableList<WifiNetwork>
 
-    override fun getListOFAllWifi(scanResults: List<ScanResult>?) {
-        wifiNetworks = ArrayList()
-        scanResults?.forEach { wifiNetwork ->
+    private val fakeWifiNetwork: MutableList<WifiNetwork> = ArrayList()
+    private val realWifiNetwork: MutableList<WifiNetwork> = ArrayList()
+    private lateinit var realWifiProvider: RealWifiProvider
+    private lateinit var fakeWifiProvider: FakeWiFiProvider
 
-            val network = WifiNetwork(wifiNetwork.SSID, wifiNetwork.level)
-            if (!TextUtils.isEmpty(network.name)) {
-                wifiNetworks.add(network)
-            }
-
-        }
-
-        wifiNetworks.sortByDescending { wifiNetwork -> wifiNetwork.level }
-
-        getListOf3TopStrongWifi()
-        getListOf3TopWeakWifi()
+    override fun onCloseByUpdate(items: List<WifiNetwork>) {
+        realWifiNetwork.clear()
+        realWifiNetwork.addAll(items)
+        realWifiNetwork.sortByDescending { wifiNetwork -> wifiNetwork.level }
+        mView.get()?.onCloseByUpdate(getListOfTopWifi(realWifiNetwork, 3))
     }
 
-    private fun getListOf3TopStrongWifi() {
-        val networks: List<WifiNetwork> = FilterNetworksHandler.filterTop(3, wifiNetworks)
-        mView.get()?.onCloseByUpdate(networks)
+    override fun onFarAwayUpdate(items: List<WifiNetwork>) {
+        fakeWifiNetwork.clear()
+        fakeWifiNetwork.addAll(items)
+        fakeWifiNetwork.sortByDescending { wifiNetwork -> wifiNetwork.level }
+        mView.get()?.onFarAwayUpdate(getListOfTopWifi(fakeWifiNetwork, 3), true)
     }
 
-    private fun getListOf3TopWeakWifi() {
-        val networks: List<WifiNetwork> = FilterNetworksHandler.filterLast(3, 3, wifiNetworks)
-        mView.get()?.onFarAwayUpdate(networks, true)
+
+    override fun startWifi() {
+        realWifiProvider = RealWifiProvider(this, mView.get() as Context)
+        fakeWifiProvider = FakeWiFiProvider(this)
+        realWifiProvider.start()
+        fakeWifiProvider.start()
     }
 
-    override fun getListOf6TopWeakWifi() {
-        val networks: List<WifiNetwork> = FilterNetworksHandler.filterLast(3, 6, wifiNetworks)
+    override fun stopWifi() {
+        realWifiProvider.stop()
+        fakeWifiProvider.stop()
+    }
+
+    override fun getListOf6TopWeakWifi(){
+        val networks =  getListOfTopWifi(fakeWifiNetwork, 6)
         mView.get()?.onFarAwayUpdate(networks, false)
+    }
+
+    private fun getListOfTopWifi(wifiNetworks: MutableList<WifiNetwork>, count: Int): List<WifiNetwork> {
+        return FilterNetworksHandler.filterTop(count, wifiNetworks)
+
     }
 
 

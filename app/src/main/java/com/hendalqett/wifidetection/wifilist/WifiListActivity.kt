@@ -1,10 +1,7 @@
 package com.hendalqett.wifidetection.wifilist
 
 import android.Manifest
-import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.net.wifi.ScanResult
-import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v7.widget.RecyclerView
@@ -12,7 +9,6 @@ import android.view.View
 import com.hend.airlines.ui.base.BaseActivity
 import com.hendalqett.wifidetection.R
 import com.hendalqett.wifidetection.data.model.WifiNetwork
-import com.hendalqett.wifidetection.receivers.WifiReceiver
 import com.hendalqett.wifidetection.utils.PermissionHandler
 import com.hendalqett.wifidetection.wifidetails.DetailsActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -21,9 +17,8 @@ import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
 
-class WifiListActivity : BaseActivity<WifiListPresenter>(), WifiListContract.View, WifiAdapter.OnItemClickedListener, WifiAdapter.OnButtonClickedListener, WifiReceiver.WifiReceiverListener {
+class WifiListActivity : BaseActivity<WifiListPresenter>(), WifiListContract.View, WifiAdapter.OnItemClickedListener, WifiAdapter.OnButtonClickedListener {
 
-    private lateinit var wifiReceiver: WifiReceiver
     private lateinit var strongNetworksAdapter: RecyclerView.Adapter<*>
     private lateinit var weakNetworksAdapter: RecyclerView.Adapter<*>
     private lateinit var strongNetworksList: MutableList<Any>
@@ -43,6 +38,7 @@ class WifiListActivity : BaseActivity<WifiListPresenter>(), WifiListContract.Vie
         recyclerViewStrongNetworks.adapter = strongNetworksAdapter
         recyclerViewWeakNetworks.setHasFixedSize(true)
         recyclerViewWeakNetworks.adapter = weakNetworksAdapter
+
     }
 
 
@@ -70,19 +66,18 @@ class WifiListActivity : BaseActivity<WifiListPresenter>(), WifiListContract.Vie
     override fun onResume() {
         super.onResume()
         if (ActivityCompat.checkSelfPermission(this@WifiListActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            wifiReceiver = WifiReceiver(this@WifiListActivity)
-            registerReceiver(wifiReceiver, IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))
-            wifiReceiver.startScan()
+            presenter.startWifi()
         }
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        unregisterReceiver(wifiReceiver)
+    override fun onPause() {
+        super.onPause()
+        presenter.stopWifi()
     }
 
     override fun onCloseByUpdate(items: List<WifiNetwork>) {
+        onDataRetrieved(items)
         strongNetworksList.clear()
         strongNetworksList.add(getString(R.string.wifi_near))
         strongNetworksList.addAll(items)
@@ -90,6 +85,7 @@ class WifiListActivity : BaseActivity<WifiListPresenter>(), WifiListContract.Vie
     }
 
     override fun onFarAwayUpdate(items: List<WifiNetwork>, isShowButton: Boolean) {
+        onDataRetrieved(items)
         weakNetworksList.clear()
         weakNetworksList.add(getString(R.string.wifi_far))
         weakNetworksList.addAll(items)
@@ -99,7 +95,6 @@ class WifiListActivity : BaseActivity<WifiListPresenter>(), WifiListContract.Vie
         weakNetworksAdapter.notifyDataSetChanged()
     }
 
-
     override fun onClicked(network: WifiNetwork) {
         startActivity<DetailsActivity>("WIFI" to network)
     }
@@ -108,11 +103,11 @@ class WifiListActivity : BaseActivity<WifiListPresenter>(), WifiListContract.Vie
         presenter.getListOf6TopWeakWifi()
     }
 
-    override fun onWifiScannedResults(results: List<ScanResult>) {
-        if (results.isNotEmpty()) {
+
+    private fun onDataRetrieved(items: List<WifiNetwork>) {
+        if (items.isNotEmpty()) {
             groupEmptyView.visibility = View.GONE
             groupRecyler.visibility = View.VISIBLE
-            presenter.getListOFAllWifi(results)
         }
 
     }
