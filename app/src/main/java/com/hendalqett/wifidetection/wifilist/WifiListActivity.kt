@@ -23,13 +23,14 @@ import org.koin.core.parameter.parametersOf
 
 class WifiListActivity : BaseActivity<WifiListPresenter>(), WifiListContract.View, WifiAdapter.OnItemClickedListener, WifiAdapter.OnButtonClickedListener, WifiReceiver.WifiReceiverListener {
 
-    private lateinit var wifiReceiver: WifiReceiver
     private lateinit var strongNetworksAdapter: RecyclerView.Adapter<*>
     private lateinit var weakNetworksAdapter: RecyclerView.Adapter<*>
     private lateinit var strongNetworksList: MutableList<Any>
     private lateinit var weakNetworksList: MutableList<Any>
 
     private val presenter: WifiListPresenter by inject { parametersOf(this) }
+    private val wifiReceiver: WifiReceiver by inject { parametersOf(this) }
+
 
     override fun afterInflation(savedInstanceState: Bundle?) {
 
@@ -70,15 +71,15 @@ class WifiListActivity : BaseActivity<WifiListPresenter>(), WifiListContract.Vie
     override fun onResume() {
         super.onResume()
         if (ActivityCompat.checkSelfPermission(this@WifiListActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            wifiReceiver = WifiReceiver(this@WifiListActivity)
             registerReceiver(wifiReceiver, IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION))
             wifiReceiver.startScan()
         }
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+
+    override fun onPause() {
+        super.onPause()
         unregisterReceiver(wifiReceiver)
     }
 
