@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.wifi_list_item.view.*
 /**
  * Created by hend on 10/13/18.
  */
-class WifiAdapter(private val wifiNetworksList: List<Any>, val itemClickedListener: OnItemClickedListener, val buttonClickedListener: OnButtonClickedListener?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class WifiAdapter(private val wifiNetworksList: List<Any>, private val itemClickedListener: OnItemClickedListener, private val buttonClickedListener: OnButtonClickedListener?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         const val TYPE_WIFI = 0
@@ -65,13 +65,12 @@ class WifiAdapter(private val wifiNetworksList: List<Any>, val itemClickedListen
     }
 
     override fun getItemViewType(position: Int): Int {
-        val type = when (wifiNetworksList[position]) {
+        return when (wifiNetworksList[position]) {
             is WifiNetwork -> TYPE_WIFI
             is Int -> TYPE_BUTTON
             else -> TYPE_HEADER
 
         }
-        return type
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
