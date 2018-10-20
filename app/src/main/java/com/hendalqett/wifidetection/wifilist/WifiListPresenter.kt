@@ -7,17 +7,22 @@ import com.hendalqett.wifidetection.providers.FakeWiFiProvider
 import com.hendalqett.wifidetection.providers.RealWifiProvider
 import com.hendalqett.wifidetection.providers.WifiProvider
 import com.hendalqett.wifidetection.utils.FilterNetworksHandler
+import org.koin.core.parameter.parametersOf
+import org.koin.standalone.KoinComponent
+import org.koin.standalone.inject
 
 /**
  * Created by hend on 10/15/18.
  */
-class WifiListPresenter(mView: WifiListContract.View) : BasePresenter<WifiListContract.View>(mView), WifiListContract.Presenter, WifiProvider.Callback {
+class WifiListPresenter(mView: WifiListContract.View) : BasePresenter<WifiListContract.View>(mView), WifiListContract.Presenter, KoinComponent, WifiProvider.Callback {
 
 
     private val fakeWifiNetwork: MutableList<WifiNetwork> = ArrayList()
     private val realWifiNetwork: MutableList<WifiNetwork> = ArrayList()
-    private lateinit var realWifiProvider: WifiProvider
-    private lateinit var fakeWifiProvider: WifiProvider
+
+    private val realWifiProvider: RealWifiProvider by inject { parametersOf(this,  mView as Context) }
+    private val fakeWifiProvider: FakeWiFiProvider by inject { parametersOf(this) }
+
 
     override fun onCloseByUpdate(items: List<WifiNetwork>) {
         realWifiNetwork.clear()
@@ -35,8 +40,6 @@ class WifiListPresenter(mView: WifiListContract.View) : BasePresenter<WifiListCo
 
 
     override fun startWifi() {
-        realWifiProvider = RealWifiProvider(this, mView.get() as Context)
-        fakeWifiProvider = FakeWiFiProvider(this)
         realWifiProvider.start()
         fakeWifiProvider.start()
     }
