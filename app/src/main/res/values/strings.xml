@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">WifiDetection</string>
+    <string name="app_name">Wifi Detection</string>
+    <string name="no_available_wifi">No Available Wifi</string>
+    <string name="show_more">Show More</string>
+    <string name="saved_first_run">first_run</string>
+    <string name="wifi_far">WiFis further away</string>
+    <string name="wifi_near">WiFis closer by</string>
+    <string name="settings">Settings</string>
+    <string name="please_grant_location">You should grant location permission for this app to work</string>
 </resources>
